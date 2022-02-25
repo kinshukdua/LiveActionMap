@@ -1,6 +1,7 @@
 import tweepy
 import datetime
 from plot import Map
+import os
 
 class Scraper:
     def __init__(self, bearer_token, filename="tweets.txt"):
@@ -64,7 +65,7 @@ class Scraper:
 # EXAMPLE
 if __name__ == "__main__":
     # Add your twitter token here
-    bearer_token = "ADD YOUR TOKEN HERE"
+    bearer_token = os.environ["BEARER"]
     s = Scraper(bearer_token)
     hashtags = ["#ukraine","#russianarmy"]
     prepositions = ['near', '"south of"', '"north of"', '"east of"', '"west of"']
