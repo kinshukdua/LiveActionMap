@@ -18,7 +18,7 @@
   <h2 align="center"> Live Action Map (LAM) </h2>
 
   <p align="center">
-    An attempt to use open source data on Twitter to map areas with active conflict. Right now it is used for the Ukraine-Russia conflict, but in the future I hope it can be used for all sorts of conflicts.
+    An attempt to use open source data on Twitter to map areas with active conflict. Right now it is used for the Ukraine-Russia conflict, but in the future I hope it can be used for all sorts of dangerous situations.
     <br />
     <a href="https://github.com/kinshukdua/LiveActionMap/examples">View Example</a>
     ·
@@ -55,7 +55,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-There are many twitter accounts posting live tweets about locations with conflicts. However, it is difficult to keep track of the locations especially multiple different sources pointing out different location. To make sure people can stay safe and take care of themselves, I have aggregated all the tweets into a single map that is easily accessible.
+There are many twitter accounts posting live tweets about locations with conflicts. However, it is difficult to keep track of the locations especially with multiple different sources pointing out different location every few minutes. To make sure people can stay safe and take care of themselves, I have aggregated all the tweets into a single map that is easily accessible.
 
 This project is a work in progress. I am working on adding more features and improving the map.
 
