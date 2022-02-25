@@ -5,7 +5,7 @@ import spacy
 from geopy.geocoders import Nominatim
 import folium
 from folium.plugins import MarkerCluster
-NER = spacy.load("en_core_web_lg")
+NER = spacy.load("en_core_web_sm")
 from tqdm import tqdm
 
 class Map:
