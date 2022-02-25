@@ -90,7 +90,7 @@ To get a local copy up and running follow these simple example steps.
 * folium
 * geopy
 * tqdm
-* geography3 (option, needed for experimental feature)
+* geography3 (optional, needed for experimental feature)
 
 
 ### Installation
