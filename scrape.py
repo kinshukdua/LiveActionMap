@@ -72,7 +72,7 @@ if __name__ == "__main__":
     s.update_query(hashtags,key_words,prepositions)
     s.scrap_query(time_limit=100)
     s.scrape_users(["COUPSURE","OsintUpdates"],filename="tweets.txt",time_limit=200)
-    s.plot_map(save="map.html")
+    s.plot_map(save="index.html")
 
 
         
