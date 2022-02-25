@@ -25,6 +25,8 @@
     <a href="https://github.com/kinshukdua/LiveActionMap/issues">Report Bug</a>
     ·
     <a href="https://github.com/kinshukdua/LiveActionMap/pulls">Add Feature</a>
+    .
+    <a href="http://18.191.203.165/">(Beta) Website currently active</a>
   </p>
 </div>
 
