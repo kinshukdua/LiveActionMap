@@ -84,9 +84,7 @@ How it works:
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
-
-Python 3.X
-Libraries
+* Python
 * tweepy
 * spaCy
 * folium
@@ -96,8 +94,6 @@ Libraries
 
 
 ### Installation
-
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
 1. Get a free twitter API Key from [developer.twitter.com](https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api). Remember to create a new app and get the bearer key.
 2. Clone the repo
