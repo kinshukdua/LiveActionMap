@@ -7,16 +7,20 @@ import folium
 from folium.plugins import MarkerCluster
 NER = spacy.load("en_core_web_sm")
 from tqdm import tqdm
+import os
+from pathlib import Path
 
 class Map:
-    def __init__(self,filename):
-        self.filename = filename
+    def __init__(self,tweets_file, dist_dir):
+        self.tweets_file = tweets_file
         self.geolocator = Nominatim(user_agent="map ukraine")
         self.m = folium.Map(location = (48.3794, 31.1656), zoom_start=6)
+        self.dist_file = os.path.join(dist_dir, 'index.html')
+        Path(dist_dir).mkdir(parents=True, exist_ok=True)
 
     def get_words(self):
         words = []
-        with open(self.filename,"r") as f:
+        with open(self.tweets_file,"r") as f:
             raw_text = f.readlines()
             for tweet in raw_text:
                 tweet = tweet.strip()
@@ -67,8 +71,8 @@ class Map:
         # Add ukraine borders
         folium.GeoJson(geo_json_data['features'][165],style_function=lambda x:style1).add_to(self.m)
 
-    def save_map(self,outfile="map.html"):
-        self.m.save(outfile)
+    def save_map(self):
+        self.m.save(self.dist_file)
     
     def __del__(self):
         del self.m
