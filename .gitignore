@@ -1,0 +1,14 @@
+# Project files
+# Output generated after scraping
+index.html
+tweets.txt
+
+# OS Files
+.DS_Store
+
+# IDE/text editor files
+.idea
+.vscode
+
+# Python
+__pycache__
