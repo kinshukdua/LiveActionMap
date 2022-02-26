@@ -3,6 +3,8 @@ import datetime
 from plot import Map
 import os
 from pathlib import Path
+import schedule
+import time
 from dotenv import load_dotenv
 
 # Load envs from the .env
@@ -70,14 +72,26 @@ class Scraper:
         print("Plotted!")
         del uk
 
-# EXAMPLE
-if __name__ == "__main__":
-    bearer_token = os.environ["BEARER"]
-    s = Scraper(bearer_token, "temp", "dist")
+def scrape(scraper):
     hashtags = ["#ukraine","#russianarmy"]
     prepositions = ['near', '"south of"', '"north of"', '"east of"', '"west of"']
     key_words = ['spotted', 'movement', 'soldiers', 'attacks', 'army', 'military', 'vehicles', 'aircraft', 'plane', 'shoot', 'shell', 'fight', 'invaders', 'strike', 'tank']
-    s.update_query(hashtags,key_words,prepositions)
-    s.scrap_query(time_limit=100)
-    s.scrape_users(["COUPSURE","OsintUpdates"], 200)
-    s.plot_map()
+
+    scraper.update_query(hashtags,key_words,prepositions)
+    scraper.scrap_query(time_limit=100)
+    scraper.scrape_users(["COUPSURE","OsintUpdates"], 200)
+    scraper.plot_map()
+
+# EXAMPLE
+if __name__ == "__main__":
+    bearer_token = os.environ["BEARER"]
+    scraper = Scraper(bearer_token, "temp", "dist")
+    
+    interval = os.getenv('SCRAPE_INTERVAL_MINS') or 10
+    schedule.every(interval).minutes.do(lambda: scrape(scraper))
+    print(f"Scheduled scraping for every {interval} minutes")
+    scrape(scraper)
+
+    while True:
+        schedule.run_pending()
+        time.sleep(1)

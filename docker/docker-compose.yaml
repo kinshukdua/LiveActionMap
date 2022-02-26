@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  server:
+    image: nginx:1.21.6
+    restart: unless-stopped
+    volumes:
+      - ./data/dist:/usr/share/nginx/html:ro
+    ports:
+      - 8080:80
+  scraper:
+    image: ghcr.io/laurin/liveactionmap
+    restart: unless-stopped
+    volumes:
+      - ./data/dist:/app/dist
+    env_file:
+      - .env
