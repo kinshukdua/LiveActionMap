@@ -9,6 +9,7 @@ NER = spacy.load("en_core_web_sm")
 from tqdm import tqdm
 import os
 from pathlib import Path
+from functools import lru_cache
 
 class Map:
     def __init__(self,tweets_file, dist_dir):
@@ -40,23 +41,33 @@ class Map:
         pc.set_cities()
         return pc.cities+pc.regions
 
+    @lru_cache(maxsize=None)
+    def _get_geolocation(self, query):
+        return self.geolocator.geocode(query)
+
+    @lru_cache(maxsize=None)
+    def _get_reverse_geolocation(self, lat, lon):
+        return self.geolocator.reverse([lat, lon]).raw
+
     def generate_map(self, use_filter=True):
         marker_cluster = MarkerCluster().add_to(self.m)
         places = self.get_words()
         if not use_filter:
             places = self._get_cities_and_regions(places)
         print("Adding markers... (This may take a while)")
-        for i in tqdm(places):
-            geodata = self.geolocator.geocode(i)
-            if geodata is not None:
-                geodata = geodata.raw
-                location = (geodata["lat"], geodata["lon"])
-                rev = self.geolocator.reverse([geodata["lat"], geodata["lon"]]).raw
-                if use_filter:
-                    if rev['address']['country_code'] == 'ua':
+        with tqdm(sorted(places)) as t:
+            for place in t:
+                t.set_description(f"{place}")
+                geodata = self._get_geolocation(place)
+                if geodata is not None:
+                    geodata = geodata.raw
+                    location = (geodata["lat"], geodata["lon"])
+                    rev = self._get_reverse_geolocation(geodata["lat"], geodata["lon"])
+                    if use_filter:
+                        if rev['address']['country_code'] == 'ua':
+                            folium.Marker(location=location,icon=folium.Icon(color="red", icon="exclamation-sign")).add_to(marker_cluster)
+                    else:
                         folium.Marker(location=location,icon=folium.Icon(color="red", icon="exclamation-sign")).add_to(marker_cluster)
-                else:
-                    folium.Marker(location=location,icon=folium.Icon(color="red", icon="exclamation-sign")).add_to(marker_cluster)
 
     def add_borders(self):
         import json
