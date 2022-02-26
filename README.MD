@@ -25,7 +25,7 @@
     <a href="https://github.com/kinshukdua/LiveActionMap/issues">Report Bug</a>
     ·
     <a href="https://github.com/kinshukdua/LiveActionMap/pulls">Add Feature</a>
-    .
+    ·
     <a href="https://kinshuk.ml/">Website Live!</a>
   </p>
 </div>
