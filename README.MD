@@ -93,7 +93,7 @@ To get a local copy up and running follow these simple example steps.
 * geopy
 * tqdm
 * geography3 (optional, needed for experimental feature)
-
+* spaCy `en_core_web_sm` model
 
 ### Installation
 
@@ -105,6 +105,9 @@ To get a local copy up and running follow these simple example steps.
 3. Install all prerequisites
    ```sh
    pip install <prerequisite name>
+
+   # Download model used with spaCy
+   python -m spacy download en_core_web_sm
    ```
 4. Open scrape.py and change the bearer key to your own.
    ```python
