@@ -1,7 +1,7 @@
 # Project files
 ## Output generated after scraping
-index.html
-tweets.txt
+dist
+temp
 
 ## Secrets
 .env
