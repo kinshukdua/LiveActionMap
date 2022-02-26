@@ -104,7 +104,7 @@ To get a local copy up and running follow these simple example steps.
    ```
 3. Install all prerequisites
    ```sh
-   pip install <prerequisite name>
+   pip install -r requirements.txt
    ```
 4. Open scrape.py and change the bearer key to your own.
    ```python
