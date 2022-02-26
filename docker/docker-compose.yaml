@@ -9,7 +9,7 @@ services:
     ports:
       - 8080:80
   scraper:
-    image: ghcr.io/laurin/liveactionmap
+    image: ghcr.io/kinshukdua/liveactionmap
     restart: unless-stopped
     volumes:
       - ./data/dist:/app/dist
