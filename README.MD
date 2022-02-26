@@ -26,7 +26,7 @@
     ·
     <a href="https://github.com/kinshukdua/LiveActionMap/pulls">Add Feature</a>
     .
-    <a href="http://18.191.203.165/">(Beta) Website currently active</a>
+    <a href="https://kinshuk.ml/">Website Live!</a>
   </p>
 </div>
 
