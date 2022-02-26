@@ -87,7 +87,7 @@ if __name__ == "__main__":
     bearer_token = os.environ["BEARER"]
     scraper = Scraper(bearer_token, "temp", "dist")
     
-    interval = os.getenv('SCRAPE_INTERVAL_MINS') or 10
+    interval = int(os.getenv('SCRAPE_INTERVAL_MINS') or 10)
     schedule.every(interval).minutes.do(lambda: scrape(scraper))
     print(f"Scheduled scraping for every {interval} minutes")
     scrape(scraper)
