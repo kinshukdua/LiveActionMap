@@ -26,7 +26,7 @@
     ·
     <a href="https://github.com/kinshukdua/LiveActionMap/pulls">Add Feature</a>
     ·
-    <a href="https://kinshuk.ml/">Website Live!</a>
+    <a href="https://live-action-map.com/">Website Live!</a>
   </p>
 </div>
 
