@@ -1,3 +1,17 @@
+# Project files
+## Output generated after scraping
 dist
 temp
+
+## Secrets
+.env
+
+# OS Files
+.DS_Store
+
+# IDE/text editor files
+.idea
+.vscode
+
+# Python
 __pycache__

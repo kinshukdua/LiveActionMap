@@ -3,6 +3,10 @@ import datetime
 from plot import Map
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load envs from the .env
+load_dotenv()
 
 class Scraper:
     def __init__(self, bearer_token, temp_dir, dist_dir):
@@ -68,7 +72,6 @@ class Scraper:
 
 # EXAMPLE
 if __name__ == "__main__":
-    # Add your twitter token here
     bearer_token = os.environ["BEARER"]
     s = Scraper(bearer_token, "temp", "dist")
     hashtags = ["#ukraine","#russianarmy"]
