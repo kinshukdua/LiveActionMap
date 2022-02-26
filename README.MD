@@ -97,7 +97,7 @@ To get a local copy up and running follow these simple example steps.
 
 ### Installation
 
-1. Get a free twitter API Key from [developer.twitter.com](https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api). Remember to create a new app and get the bearer key.
+1. Get a free twitter Bearer Token from [developer.twitter.com](https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api). Remember to create a new app and get the bearer token.
 2. Clone the repo
    ```sh
    git clone https://github.com/kinshukdua/LiveActionMap.git
@@ -106,10 +106,11 @@ To get a local copy up and running follow these simple example steps.
    ```sh
    pip install -r requirements.txt
    ```
-4. Open scrape.py and change the bearer key to your own.
-   ```python
-   bearer_token = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+4. Create a `.env` file based on the `.env.example`
+   ```sh
+   cp .env.example .env
    ```
+5. Set the Twitter bearer token to your own in the `.env` file created in the previous step.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
