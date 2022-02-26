@@ -86,7 +86,7 @@ How it works:
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
-* Python
+* Python 3 (this project has support for [asdf](https://asdf-vm.com/) with the [python plugin](https://github.com/danhper/asdf-python))
 * tweepy
 * spaCy
 * folium
