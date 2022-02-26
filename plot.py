@@ -48,7 +48,7 @@ class Map:
         print("Adding markers... (This may take a while)")
         for i in tqdm(places):
             try:
-            geodata = self.geolocator.geocode(i)
+                geodata = self.geolocator.geocode(i)
             except:
                 geodata = None
                 print(f"\nGetting geolocation data for {i} failed")
