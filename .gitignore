@@ -1,7 +1,10 @@
 # Project files
-# Output generated after scraping
+## Output generated after scraping
 index.html
 tweets.txt
+
+## Secrets
+.env
 
 # OS Files
 .DS_Store
