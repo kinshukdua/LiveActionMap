@@ -1,0 +1,6 @@
+tweepy
+spaCy
+folium
+geopy
+tqdm
+geograpy3
