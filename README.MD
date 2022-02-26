@@ -104,7 +104,7 @@ To get a local copy up and running follow these simple example steps.
    ```
 3. Install all prerequisites
    ```sh
-   pip install <prerequisite name>
+   pip install -r requirements.txt
 
    # Download model used with spaCy
    python -m spacy download en_core_web_sm
