@@ -47,7 +47,11 @@ class Map:
             places = self._get_cities_and_regions(places)
         print("Adding markers... (This may take a while)")
         for i in tqdm(places):
+            try:
             geodata = self.geolocator.geocode(i)
+            except:
+                geodata = None
+                print(f"\nGetting geolocation data for {i} failed")
             if geodata is not None:
                 geodata = geodata.raw
                 location = (geodata["lat"], geodata["lon"])
