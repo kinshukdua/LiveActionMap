@@ -133,10 +133,11 @@ Simply edit hashtags, prepositions and keywords and run scrape.py.
 - [x] Add tweet scraping
 - [x] Add map
 - [x] Add map clustering
-- [ ] Create a server to host the generated map
+- [x] Create a server to host the generated map
 - [ ] Add better filtering
 - [ ] Add tweet link on map
 - [ ] Use NLP to indicate danger level
+- [ ] Add misinformation prevention algorithm
 - [ ] Multi-language Support
     - [ ] Ukranian
     - [ ] Russian
