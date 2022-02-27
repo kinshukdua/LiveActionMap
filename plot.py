@@ -89,7 +89,10 @@ class Map:
         del self.m
         del self.geolocator
 if __name__ == "__main__":
-    uk = Map("twitter.txt")
+    tweets_file = "twitter.txt"
+    dist_dir = "dist"
+
+    uk = Map(tweets_file, dist_dir)
     uk.generate_map()
     uk.add_borders()
     uk.save_map()
