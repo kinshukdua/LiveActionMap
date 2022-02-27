@@ -97,6 +97,10 @@ To get a local copy up and running follow these simple example steps.
 
 ### Installation
 
+#### Python
+
+<div id="twitter-token"></div>
+
 1. Get a free twitter Bearer Token from [developer.twitter.com](https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api). Remember to create a new app and get the bearer token.
 2. Clone the repo
    ```sh
@@ -115,6 +119,22 @@ To get a local copy up and running follow these simple example steps.
    cp .env.example .env
    ```
 6. Set the Twitter bearer token to your own in the `.env` file created in the previous step.
+
+#### Docker
+
+1. [Get a Twitter Bearer Token](#twitter-token)
+1. Download the `docker-compose.yaml`-file
+    ```sh
+    wget https://raw.githubusercontent.com/kinshukdua/LiveActionMap/main/docker/docker-compose.yaml
+    ```
+1. Create a `.env` file based on the .env.example
+    ```sh
+    wget https://raw.githubusercontent.com/kinshukdua/LiveActionMap/main/.env.example -O .env 
+    ```
+1. Start the stack
+    ```
+    docker-compose up -d
+    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
