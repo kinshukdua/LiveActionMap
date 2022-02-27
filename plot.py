@@ -11,6 +11,7 @@ from tqdm import tqdm
 import os
 from pathlib import Path
 from functools import lru_cache
+from time import sleep
 
 class Map:
     def __init__(self,tweets_file, dist_dir):
@@ -67,13 +68,20 @@ class Map:
             places = self._get_cities_and_regions(places)
         print("Adding markers... (This may take a while)")
         with tqdm(sorted(places, key=lambda k: k['place'])) as t:
-            for place in t:
-                link = place['link']
-                tweet = place['tweet']
-                place = place['place']
-                
+            retry = []
+            for tweet_place in t:
+                link = tweet_place['link']
+                tweet = tweet_place['tweet']
+                place = tweet_place['place']
+                if place.lower() == "Ukraine".lower():
+                    continue
                 t.set_description(f"{place}")
-                geodata = self._get_geolocation(place)
+                try:
+                    geodata = self._get_geolocation(place)
+                except:
+                    print("Failed to geolocate", place)
+                    retry.append(tweet_place)
+                    continue
                 if geodata is not None:
                     geodata = geodata.raw
                     location = (geodata["lat"], geodata["lon"])
@@ -85,6 +93,31 @@ class Map:
                             folium.Marker(location=location,icon=folium.Icon(color="red", icon="exclamation-sign"), popup=popup).add_to(marker_cluster)
                     else:
                         folium.Marker(location=location,icon=folium.Icon(color="red", icon="exclamation-sign"), popup=popup).add_to(marker_cluster)
+
+            if retry:
+                sleep(10)
+                print("Retrying failed geolocations...")
+                with tqdm(sorted(retry, key=lambda k: k['place'])) as r:
+                    for tweet_place in r:
+                        link = tweet_place['link']
+                        tweet = tweet_place['tweet']
+                        place = tweet_place['place']
+                        t.set_description(f"{place}")
+                        try:
+                            geodata = self._get_geolocation(place)
+                        except:
+                            continue
+                        if geodata is not None:
+                            geodata = geodata.raw
+                            location = (geodata["lat"], geodata["lon"])
+                            rev = self._get_reverse_geolocation(geodata["lat"], geodata["lon"])
+                            popup = f"{tweet}<br><a href={link} target=\"_blank\">Tweet</a>"
+
+                            if use_filter:
+                                if rev['address']['country_code'] == 'ua':
+                                    folium.Marker(location=location,icon=folium.Icon(color="red", icon="exclamation-sign"), popup=popup).add_to(marker_cluster)
+                            else:
+                                folium.Marker(location=location,icon=folium.Icon(color="red", icon="exclamation-sign"), popup=popup).add_to(marker_cluster)
 
     def add_borders(self):
         import json
