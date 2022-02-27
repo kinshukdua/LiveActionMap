@@ -5,3 +5,4 @@ geopy
 tqdm
 geograpy3
 python-dotenv>=0.19.2
+beautifulsoup4
