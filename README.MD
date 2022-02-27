@@ -106,11 +106,15 @@ To get a local copy up and running follow these simple example steps.
    ```sh
    pip install -r requirements.txt
    ```
-4. Create a `.env` file based on the `.env.example`
+4. Download en_core_web, for more info see --> https://github.com/explosion/spaCy/issues/4577
+   ```sh
+    python3 -m spacy download en_core_web_sm
+   ```
+5. Create a `.env` file based on the `.env.example`
    ```sh
    cp .env.example .env
    ```
-5. Set the Twitter bearer token to your own in the `.env` file created in the previous step.
+6. Set the Twitter bearer token to your own in the `.env` file created in the previous step.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
