@@ -23,10 +23,16 @@ class Scraper:
 
     def _write_tweets(self, tweets, verbose=False):
         for tweet in tweets.data:
+            tweet_data = {
+                "id": tweet.id,
+                "text": str(tweet.text.encode('utf-8').decode('ascii','ignore')),
+                "link": f"https://twitter.com/u/status/{tweet.id}"
+            }
+
             if verbose:
-                print(str(tweet.text.encode('utf-8').decode('ascii','ignore')))
+                print(tweet_data)
             with open(self.tweets_file,"a") as f:
-                f.write(str(tweet.text.encode('utf-8').decode('ascii','ignore')))
+                f.write(str(tweet_data))
                 f.write("\n")
 
     
