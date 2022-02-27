@@ -20,7 +20,7 @@ class Map:
         self.dist_file = os.path.join(dist_dir, 'index.html')
         Path(dist_dir).mkdir(parents=True, exist_ok=True)
 
-    def get_mapped_places(self):
+    def get_places(self):
         places = []
         with open(self.tweets_file,"r") as f:
             raw_text = f.readlines()
@@ -38,7 +38,8 @@ class Map:
                             # print(word.text,word.label_,end=", ")
                             places.append({
                                 "place": word.text,
-                                "link": tweet_data['link']
+                                "link": tweet_data['link'],
+                                "tweet": tweet
                             })
         return places
 
@@ -60,7 +61,7 @@ class Map:
 
     def generate_map(self, use_filter=True):
         marker_cluster = MarkerCluster().add_to(self.m)
-        places = self.get_mapped_places()
+        places = self.get_places()
         if not use_filter:
             # TODO `places` is an array of json, but the following function expects an array of strings
             places = self._get_cities_and_regions(places)
@@ -68,6 +69,7 @@ class Map:
         with tqdm(sorted(places, key=lambda k: k['place'])) as t:
             for place in t:
                 link = place['link']
+                tweet = place['tweet']
                 place = place['place']
                 
                 t.set_description(f"{place}")
@@ -76,11 +78,13 @@ class Map:
                     geodata = geodata.raw
                     location = (geodata["lat"], geodata["lon"])
                     rev = self._get_reverse_geolocation(geodata["lat"], geodata["lon"])
+                    popup = f"{tweet}<br><a href={link} target=\"_blank\">Tweet</a>"
+
                     if use_filter:
                         if rev['address']['country_code'] == 'ua':
-                            folium.Marker(location=location,icon=folium.Icon(color="red", icon="exclamation-sign")).add_to(marker_cluster)
+                            folium.Marker(location=location,icon=folium.Icon(color="red", icon="exclamation-sign"), popup=popup).add_to(marker_cluster)
                     else:
-                        folium.Marker(location=location,icon=folium.Icon(color="red", icon="exclamation-sign")).add_to(marker_cluster)
+                        folium.Marker(location=location,icon=folium.Icon(color="red", icon="exclamation-sign"), popup=popup).add_to(marker_cluster)
 
     def add_borders(self):
         import json
