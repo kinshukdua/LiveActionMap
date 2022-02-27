@@ -17,7 +17,7 @@ class Map:
     def __init__(self,tweets_file, dist_dir):
         self.tweets_file = tweets_file
         self.geolocator = Nominatim(user_agent="LiveActionMap")
-        self.m = folium.Map(location=[49.422181441686966, 32.04020925216723], zoom_start=5.5)
+        self.m = folium.Map(location = (48.3794, 31.1656), zoom_start=5.5)        
         self.dist_file = os.path.join(dist_dir, 'index.html')
         Path(dist_dir).mkdir(parents=True, exist_ok=True)
 
