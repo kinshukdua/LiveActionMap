@@ -127,8 +127,8 @@ class Map:
         map_div.insert_after(overlay)
 
         map_file.find("head").append(
-            BeautifulSoup("<link rel='stylesheet' href='overlay.css'>"),
-            "html.parser"
+            BeautifulSoup("<link rel='stylesheet' href='overlay.css'>",
+            "html.parser")
         )
 
         with open(self.dist_file, "w", encoding="utf-8") as dist_html:
@@ -144,7 +144,7 @@ class Map:
 
 
 if __name__ == "__main__":
-    tweets_file = "twitter.txt"
+    tweets_file = "temp/tweets.txt"
     dist_dir = "dist"
     overlay_dir = "overlay-components"
 
