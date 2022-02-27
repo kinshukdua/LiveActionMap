@@ -73,6 +73,7 @@ class Map:
                 link = tweet_place['link']
                 tweet = tweet_place['tweet']
                 place = tweet_place['place']
+                place = place.replace("#","")
                 if place.lower() == "Ukraine".lower():
                     continue
                 t.set_description(f"{place}")
@@ -102,6 +103,9 @@ class Map:
                         link = tweet_place['link']
                         tweet = tweet_place['tweet']
                         place = tweet_place['place']
+                        place = place.replace("#","")
+                        if place.lower() == "Ukraine".lower():
+                            continue
                         t.set_description(f"{place}")
                         try:
                             geodata = self._get_geolocation(place)
