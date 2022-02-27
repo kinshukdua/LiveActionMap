@@ -15,8 +15,8 @@ from functools import lru_cache
 class Map:
     def __init__(self,tweets_file, dist_dir):
         self.tweets_file = tweets_file
-        self.geolocator = Nominatim(user_agent="map ukraine")
-        self.m = folium.Map(location = (48.3794, 31.1656), zoom_start=6)
+        self.geolocator = Nominatim(user_agent="LiveActionMap")
+        self.m = folium.Map(location=[49.422181441686966, 32.04020925216723], zoom_start=5.5, tiles="Stamen Toner")
         self.dist_file = os.path.join(dist_dir, 'index.html')
         Path(dist_dir).mkdir(parents=True, exist_ok=True)
 
@@ -78,7 +78,8 @@ class Map:
                     geodata = geodata.raw
                     location = (geodata["lat"], geodata["lon"])
                     rev = self._get_reverse_geolocation(geodata["lat"], geodata["lon"])
-                    popup = f"{tweet}<br><a href={link} target=\"_blank\">Tweet</a>"
+                    summary = tweet[0:100] + "..."
+                    popup = f"{summary}<br><a href={link} target=\"_blank\">Tweet</a>"
 
                     if use_filter:
                         if rev['address']['country_code'] == 'ua':
