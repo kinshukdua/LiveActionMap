@@ -100,7 +100,7 @@ class Scraper:
 if __name__ == "__main__":
     bearer_token = os.environ["BEARER"]
     s = Scraper(bearer_token, "temp", "dist")
-    hashtags = ["#ukraine", "#russianarmy"]
+    hashtags = ["#ukraine", "#russianarmy","#OSINT"]
     prepositions = ['near', '"south of"', '"north of"', '"east of"', '"west of"']
     key_words = ['spotted', 'movement', 'soldiers', 'attacks', 'army', 'military', 'vehicles', 'aircraft', 'plane',
                  'shoot', 'shell', 'fight', 'invaders', 'strike', 'tank']
