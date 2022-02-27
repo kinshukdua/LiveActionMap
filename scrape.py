@@ -73,6 +73,7 @@ class Scraper:
         uk.generate_map()
         uk.add_borders()
         uk.save_map()
+        uk.inject_overlay(self.dist_dir, "overlay-components")
         print("Plotted!")
         del uk
 
