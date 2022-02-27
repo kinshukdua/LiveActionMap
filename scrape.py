@@ -27,13 +27,20 @@ class Scraper:
         return user.data.id
 
     def _write_tweets(self, tweets, verbose=False):
+        if verbose:
+            print(tweets.includes.get('users'))
         for tweet in tweets.data:
             tweet_data = {
+                "author_id": tweet.author_id,
                 "id": tweet.id,
-                "text": str(tweet.text.encode('utf-8').decode('ascii','ignore')),
+                "text": str(tweet.text.encode('utf-8').decode('ascii', 'ignore')),
                 "link": f"https://twitter.com/u/status/{tweet.id}"
             }
-
+            user_id = tweet.author_id
+            # skip all the tweets from accounts blacklisted
+            if user_id in self.blacklist_usernames:
+                print(f"Skipping {user_id} because it was found as blacklisted in this environment")
+                continue
             if verbose:
                 print(tweet_data)
             with open(self.tweets_file, "a") as f:
@@ -55,13 +62,15 @@ class Scraper:
         now = datetime.datetime.now(datetime.timezone.utc)
         start = now - datetime.timedelta(minutes=time_limit)
         start = start.isoformat(timespec="seconds")
-        tweets = self.client.search_recent_tweets(self.query, start_time=start, **kwargs)
+        kwargs.update({"user.fields": "created_at,description,entities,id,location,name,pinned_tweet_id,profile_image_url,"
+                                      "protected,public_metrics,url,username,verified,withheld"})
+        tweets = self.client.search_recent_tweets(self.query, start_time=start, expansions='author_id', **kwargs)
         self._write_tweets(tweets, verbose)
         print("Done scraping query.")
 
     def scrape_users(self, usernames, time_limit=10, verbose=False, **kwargs):
         now = datetime.datetime.now(datetime.timezone.utc)
-        start = now -  datetime.timedelta(minutes=time_limit)
+        start = now - datetime.timedelta(minutes=time_limit)
         start = start.isoformat(timespec="seconds")
         for user in usernames:
             user_id = self._get_user_id(user)
