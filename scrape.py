@@ -4,8 +4,8 @@ import json
 import datetime
 import os
 from pathlib import Path
-import schedule
 import time
+import schedule
 from dotenv import load_dotenv
 import tweepy
 from plot import Map
@@ -113,6 +113,7 @@ class Scraper:
 
 
 def scrape(scraper_instance):
+    """Handling main function"""
     hashtags = ["#ukraine", "#russianarmy", "#OSINT"]
     prepositions = ['near', '"south of"', '"north of"', '"east of"', '"west of"']
     key_words = ['spotted', 'movement', 'soldiers', 'attacks',
