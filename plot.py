@@ -148,9 +148,9 @@ class Map:
 
     def save_map(self):
         from shutil import copy
-
-        copy("main.css", self.dist_dir)
-        copy("index.html", self.dist_dir)
+        copy(os.path.join("template","main.css"), self.dist_dir)
+        copy(os.path.join("template","index.html"), self.dist_dir)
+        copy(os.path.join("template","favicon.png"), self.dist_dir)
         copy(os.path.join("images", "map.png"), self.dist_dir)
         self.m.save(self.dist_file)
 
