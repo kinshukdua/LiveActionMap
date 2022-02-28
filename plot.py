@@ -172,6 +172,10 @@ class Map:
         copy(os.path.join("images", "map.png"), self.dist_dir)
         self.map.save(self.dist_file)
 
+        os.unlink("temp/tweets.txt")
+
+        
+
     def inject_overlay(self, dist_dir, overlay_dir):
         # pylint: disable = R1732
         """Inject overlay"""
