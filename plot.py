@@ -1,4 +1,9 @@
 
+from time import sleep
+from functools import lru_cache
+from pathlib import Path
+import os
+from tqdm import tqdm
 import ast
 import json
 import spacy
@@ -7,23 +12,20 @@ from geopy.geocoders import Nominatim
 import folium
 from folium.plugins import MarkerCluster
 NER = spacy.load("en_core_web_sm")
-from tqdm import tqdm
-import os
-from pathlib import Path
-from functools import lru_cache
-from time import sleep
+
 
 class Map:
-    def __init__(self,tweets_file, dist_dir):
+    def __init__(self, tweets_file, dist_dir):
         self.tweets_file = tweets_file
         self.geolocator = Nominatim(user_agent="LiveActionMap")
-        self.m = folium.Map(location = (48.3794, 31.1656), zoom_start=6)        
-        self.dist_file = os.path.join(dist_dir, 'index.html')
-        Path(dist_dir).mkdir(parents=True, exist_ok=True)
+        self.m = folium.Map(location=(48.3794, 31.1656), zoom_start=6)
+        self.dist_file = os.path.join(dist_dir, 'map.html')
+        self.dist_dir = dist_dir
+        Path(self.dist_dir).mkdir(parents=True, exist_ok=True)
 
     def get_places(self):
         places = []
-        with open(self.tweets_file,"r") as f:
+        with open(self.tweets_file, "r") as f:
             raw_text = f.readlines()
             for tweet_data in raw_text:
                 if "'id':" not in tweet_data:
@@ -33,9 +35,9 @@ class Map:
                 tweet = tweet_data['text'].strip()
 
                 if tweet:
-                    text= NER(tweet)
+                    text = NER(tweet)
                     for word in text.ents:
-                        if word.label_ == "GPE" or  word.label_ == "LOC":
+                        if word.label_ == "GPE" or word.label_ == "LOC":
                             # print(word.text,word.label_,end=", ")
                             places.append({
                                 "place": word.text,
@@ -73,7 +75,7 @@ class Map:
                 link = tweet_place['link']
                 tweet = tweet_place['tweet']
                 place = tweet_place['place']
-                place = place.replace("#","")
+                place = place.replace("#", "")
                 if place.lower() == "Ukraine".lower():
                     continue
                 t.set_description(f"{place}")
@@ -86,15 +88,18 @@ class Map:
                 if geodata is not None:
                     geodata = geodata.raw
                     location = (geodata["lat"], geodata["lon"])
-                    rev = self._get_reverse_geolocation(geodata["lat"], geodata["lon"])
+                    rev = self._get_reverse_geolocation(
+                        geodata["lat"], geodata["lon"])
                     summary = tweet[0:100] + "..."
                     popup = f"{summary}<br><a href={link} target=\"_blank\">Tweet</a>"
 
                     if use_filter:
                         if rev['address']['country_code'] == 'ua':
-                            folium.Marker(location=location,icon=folium.Icon(color="red", icon="exclamation-sign"), popup=popup).add_to(marker_cluster)
+                            folium.Marker(location=location, icon=folium.Icon(
+                                color="red", icon="exclamation-sign"), popup=popup).add_to(marker_cluster)
                     else:
-                        folium.Marker(location=location,icon=folium.Icon(color="red", icon="exclamation-sign"), popup=popup).add_to(marker_cluster)
+                        folium.Marker(location=location, icon=folium.Icon(
+                            color="red", icon="exclamation-sign"), popup=popup).add_to(marker_cluster)
 
             if retry:
                 sleep(10)
@@ -104,7 +109,7 @@ class Map:
                         link = tweet_place['link']
                         tweet = tweet_place['tweet']
                         place = tweet_place['place']
-                        place = place.replace("#","")
+                        place = place.replace("#", "")
                         if place.lower() == "Ukraine".lower():
                             continue
                         t.set_description(f"{place}")
@@ -115,14 +120,17 @@ class Map:
                         if geodata is not None:
                             geodata = geodata.raw
                             location = (geodata["lat"], geodata["lon"])
-                            rev = self._get_reverse_geolocation(geodata["lat"], geodata["lon"])
+                            rev = self._get_reverse_geolocation(
+                                geodata["lat"], geodata["lon"])
                             popup = f"{tweet}<br><a href={link} target=\"_blank\">Tweet</a>"
 
                             if use_filter:
                                 if rev['address']['country_code'] == 'ua':
-                                    folium.Marker(location=location,icon=folium.Icon(color="red", icon="exclamation-sign"), popup=popup).add_to(marker_cluster)
+                                    folium.Marker(location=location, icon=folium.Icon(
+                                        color="red", icon="exclamation-sign"), popup=popup).add_to(marker_cluster)
                             else:
-                                folium.Marker(location=location,icon=folium.Icon(color="red", icon="exclamation-sign"), popup=popup).add_to(marker_cluster)
+                                folium.Marker(location=location, icon=folium.Icon(
+                                    color="red", icon="exclamation-sign"), popup=popup).add_to(marker_cluster)
 
     def add_borders(self):
         import json
@@ -135,46 +143,16 @@ class Map:
         country_borders = f"{url}/world-countries.json"
         geo_json_data = json.loads(requests.get(country_borders).text)
         # Add ukraine borders
-        folium.GeoJson(geo_json_data['features'][165],style_function=lambda x:style1).add_to(self.m)
+        folium.GeoJson(geo_json_data['features'][165],
+                       style_function=lambda x: style1).add_to(self.m)
 
     def save_map(self):
+        from shutil import copy
+
+        copy("main.css", self.dist_dir)
+        copy("index.html", self.dist_dir)
+        copy(os.path.join("images", "map.png"), self.dist_dir)
         self.m.save(self.dist_file)
-
-    def inject_overlay(self, dist_dir, overlay_dir):
-        from bs4 import BeautifulSoup
-        from re import compile
-
-        map_file = BeautifulSoup(
-            open(self.dist_file, "r").read(),
-            "html.parser"
-        )
-        css_file = open(
-            os.path.join(overlay_dir, "overlay.css")
-        ).read()
-
-        overlay = BeautifulSoup(
-            open(
-                os.path.join(overlay_dir, "overlay.html"),
-                "r"
-            ).read(),
-            "html.parser"
-        )
-
-        map_div = map_file.find("div", id=compile("map_"))
-        map_div["style"] = "z-index: 0;"
-        map_div.insert_after(overlay)
-
-        map_file.find("head").append(
-            BeautifulSoup("<link rel='stylesheet' href='overlay.css'>",
-            "html.parser")
-        )
-
-        with open(self.dist_file, "w", encoding="utf-8") as dist_html:
-            dist_html.write(str(map_file))
-
-        with open(
-                os.path.join(dist_dir, "overlay.css"), "w") as dist_css:
-            dist_css.write(css_file)
 
     def __del__(self):
         del self.m
@@ -190,4 +168,3 @@ if __name__ == "__main__":
     uk.generate_map()
     uk.add_borders()
     uk.save_map()
-    uk.inject_overlay(dist_dir, overlay_dir)
