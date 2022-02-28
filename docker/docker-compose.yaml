@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  server:
+    image: nginx:1.21.6
+    restart: unless-stopped
+    volumes:
+      - html:/usr/share/nginx/html:ro
+    ports:
+      - 8080:80
+  scraper:
+    image: ghcr.io/kinshukdua/liveactionmap
+    restart: unless-stopped
+    volumes:
+      - html:/app/dist
+    env_file:
+      - .env
+
+volumes:
+  html:

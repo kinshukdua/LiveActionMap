@@ -15,3 +15,5 @@ temp
 
 # Python
 __pycache__
+
+docker/.env

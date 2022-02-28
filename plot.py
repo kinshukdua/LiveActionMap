@@ -23,7 +23,8 @@ class Map:
         self.geolocator = Nominatim(user_agent="LiveActionMap")
         self.map = folium.Map(location=(48.3794, 31.1656), zoom_start=6)
         self.dist_file = os.path.join(dist_dir_param, 'index.html')
-        Path(dist_dir_param).mkdir(parents=True, exist_ok=True)
+        self.dist_dir = dist_dir_param
+        Path(self.dist_dir).mkdir(parents=True, exist_ok=True)
 
     def get_places(self):
         """Get places method"""
@@ -96,7 +97,8 @@ class Map:
                 if geodata is not None:
                     geodata = geodata.raw
                     location = (geodata["lat"], geodata["lon"])
-                    rev = self._get_reverse_geolocation(geodata["lat"], geodata["lon"])
+                    rev = self._get_reverse_geolocation(
+                        geodata["lat"], geodata["lon"])
                     summary = tweet[0:100] + "..."
                     popup = f"{summary}<br><a href={link} target=\"_blank\">Tweet</a>"
 
@@ -130,7 +132,8 @@ class Map:
                         if geodata is not None:
                             geodata = geodata.raw
                             location = (geodata["lat"], geodata["lon"])
-                            rev = self._get_reverse_geolocation(geodata["lat"], geodata["lon"])
+                            rev = self._get_reverse_geolocation(
+                                geodata["lat"], geodata["lon"])
                             popup = f"{tweet}<br><a href={link} target=\"_blank\">Tweet</a>"
 
                             if use_filter:
@@ -162,6 +165,11 @@ class Map:
 
     def save_map(self):
         """Saving map persistent memory"""
+        from shutil import copy
+        copy(os.path.join("template", "main.css"), self.dist_dir)
+        copy(os.path.join("template", "index.html"), self.dist_dir)
+        copy(os.path.join("template", "favicon.png"), self.dist_dir)
+        copy(os.path.join("images", "map.png"), self.dist_dir)
         self.map.save(self.dist_file)
 
     def inject_overlay(self, dist_dir, overlay_dir):

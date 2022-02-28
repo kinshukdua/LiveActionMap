@@ -1,0 +1,65 @@
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="main.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link rel=icon href=./favicon.png>
+    <!--SEO TAGS-->
+
+    <title>Live Action Map | Ukraine Conflict in Real Time</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title" content="Live Action Map | Ukraine Conflict in Real Time">
+    <meta name="description" content="A live map of conflict over Ukraine ">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://live-action-map.com/">
+    <meta property="og:title" content="Live Action Map | Ukraine Conflict in Real Time">
+    <meta property="og:description" content="A live map of conflict over Ukraine ">
+    <meta property="og:image" content="map.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://live-action-map.com/">
+    <meta property="twitter:title" content="Live Action Map | Ukrainie conflict ">
+    <meta property="twitter:description" content="A live map of conflict over Ukraine ">
+    <meta property="twitter:image" content="map.png">
+</head>
+<body>
+    <iframe src="./map.html" frameborder="0"></iframe>
+    <div class="overlay-scroll">
+        <a href="#overlay">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 2em;">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </a>
+    </div>
+    <div class="overlay" id="overlay">
+        <div class="overlay-container">
+            <h4>Conflicted Areas in Ukraine</h4>
+            <p>This shows a live feed of what's happening in Ukraine. Tweets talking about the conflict are mined to generate points of interest on the map.</p>
+            <div class="badge-container">
+                <div class="badge-outer">
+                    <div class="badge-inner">
+                        150
+                    </div>
+                </div>
+                <p>
+                    This icon shows how many tweets report conflict in a region.
+                </p>
+            </div>
+            <code class="copy-section">
+                <button class="copy-button" onclick="navigator.clipboard.writeText('https:\/\/live-action-map.com')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="height: 1em;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                    </svg>
+                </button>
+                https://live-action-map.com
+            </code>
+            <p>Check out the source code for the project <a href="https://github.com/kinshukdua/LiveActionMap" target="blank">here</a>!</p>
+        </div>
+    </div>
+</body>
+</html>

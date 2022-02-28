@@ -4,6 +4,8 @@ import json
 import datetime
 import os
 from pathlib import Path
+import schedule
+import time
 from dotenv import load_dotenv
 import tweepy
 from plot import Map
@@ -105,20 +107,33 @@ class Scraper:
         ukraine_map.generate_map()
         ukraine_map.add_borders()
         ukraine_map.save_map()
-        ukraine_map.inject_overlay(self.dist_dir, "overlay-components")
+        # ukraine_map.inject_overlay(self.dist_dir, "overlay-components")
         print("Plotted!")
         del ukraine_map
 
 
-# EXAMPLE
-if __name__ == "__main__":
-    s = Scraper(os.environ["BEARER"], "temp", "dist")
+def scrape(scraper_instance):
     hashtags = ["#ukraine", "#russianarmy", "#OSINT"]
     prepositions = ['near', '"south of"', '"north of"', '"east of"', '"west of"']
     key_words = ['spotted', 'movement', 'soldiers', 'attacks',
                  'army', 'military', 'vehicles', 'aircraft', 'plane',
                  'shoot', 'shell', 'fight', 'invaders', 'strike', 'tank']
-    s.update_query(hashtags, key_words, prepositions)
-    s.scrap_query(time_limit=100)
-    s.scrape_users(["COUPSURE", "OsintUpdates"], 200)
-    s.plot_map()
+
+    scraper_instance.update_query(hashtags, key_words, prepositions)
+    scraper_instance.scrap_query(time_limit=100)
+    scraper_instance.scrape_users(["COUPSURE", "OsintUpdates"], 200)
+    scraper_instance.plot_map()
+
+
+# EXAMPLE
+if __name__ == "__main__":
+    scraper = Scraper(os.environ["BEARER"], "temp", "dist")
+
+    interval = int(os.getenv('SCRAPE_INTERVAL_MINS') or 10)
+    schedule.every(interval).minutes.do(lambda: scrape(scraper))
+    print(f"Scheduled scraping for every {interval} minutes")
+    scrape(scraper)
+
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
