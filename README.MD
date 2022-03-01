@@ -27,6 +27,8 @@
     <a href="https://github.com/kinshukdua/LiveActionMap/pulls">Add Feature</a>
     ·
     <a href="https://live-action-map.com/">Website Live!</a>
+    ·
+    <a href="https://discord.gg/F8qJXSJj6S">Join Discord!</a>
   </p>
 </div>
 
