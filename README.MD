@@ -20,8 +20,6 @@
   <p align="center">
     An attempt to use open source data on Twitter to map areas with active conflict. Right now it is used for the Ukraine-Russia conflict, but in the future I hope it can be used for all sorts of dangerous situations.
     <br />
-    <a href="https://github.com/kinshukdua/LiveActionMap/examples">View Example</a>
-    ·
     <a href="https://github.com/kinshukdua/LiveActionMap/issues">Report Bug</a>
     ·
     <a href="https://github.com/kinshukdua/LiveActionMap/pulls">Add Feature</a>
@@ -63,7 +61,8 @@ There are many twitter accounts posting live tweets about locations with conflic
 
 This project is a work in progress. I am working on adding more features and improving the map.
 
-![Alt text](./images/map.PNG)
+<a href="https://live-action-map.com/">![Website Link Image](./images/map.PNG)</a>
+
 
 How it works:
  * Tweets are sourced using keywords, hashtags and prepositions, such as the phrase "shooting... near ... location".
@@ -162,7 +161,7 @@ Simply edit hashtags, prepositions and keywords and run scrape.py.
 - [x] Add map clustering
 - [x] Create a server to host the generated map
 - [ ] Add better filtering
-- [ ] Add tweet link on map
+- [x] Add tweet link on map
 - [ ] Use NLP to indicate danger level
 - [ ] Add misinformation prevention algorithm
 - [ ] Multi-language Support
