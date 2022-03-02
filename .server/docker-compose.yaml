@@ -22,9 +22,28 @@ services:
     environment:
       - BEARER
       - BLACKLIST_USERID
+      - NOMINATIM_URL
+
+  nominatim:
+    container_name: nominatim
+    image: mediagis/nominatim:4.0
+    restart: always
+    environment:
+      - PBF_URL
+      - REPLICATION_URL
+      - NOMINATIM_PASSWORD
+    volumes:
+      - nominatim-data:/var/lib/postgresql/12/main
+    shm_size: 1gb
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.liveActionMap.rule=Host(`nominatim.internal`)
+    networks:
+      - treafik
 
 volumes:
   html:
+  nominatim-data:
 
 networks:
   treafik:
