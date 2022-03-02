@@ -28,16 +28,19 @@ services:
     container_name: nominatim
     image: mediagis/nominatim:4.0
     restart: always
+    ports:
+      - "9568:8080"
     environment:
-      - PBF_URL
-      - REPLICATION_URL
-      - NOMINATIM_PASSWORD
+      PBF_URL: https://download.geofabrik.de/europe/monaco-latest.osm.pbf
+      REPLICATION_URL: https://download.geofabrik.de/europe/monaco-updates/
+      NOMINATIM_PASSWORD: NOMINATIM_PASSWORD
     volumes:
       - nominatim-data:/var/lib/postgresql/12/main
     shm_size: 1gb
     labels:
       - traefik.enable=true
-      - traefik.http.routers.liveActionMap.rule=Host(`nominatim.internal`)
+      - traefik.http.routers.nominatim.rule=Host(`nominatim.internal`)
+      - traefik.http.services.nominatim.loadbalancer.server.port=9568
     networks:
       - treafik
 
