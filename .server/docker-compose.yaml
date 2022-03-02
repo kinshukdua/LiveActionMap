@@ -8,7 +8,7 @@ services:
       - html:/usr/share/nginx/html:ro
     labels:
       - traefik.enable=true
-      - traefik.http.routers.liveActionMap.rule=Host(`live-action-map.com`)
+      - traefik.http.routers.liveActionMap.rule=Host(`live-action-map.com`) || Host(`www.live-action-map.com`)
       - traefik.http.routers.liveActionMap.tls=true
       - traefik.http.routers.liveActionMap.tls.certresolver=resolver
 
