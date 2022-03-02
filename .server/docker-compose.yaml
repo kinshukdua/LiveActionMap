@@ -37,12 +37,6 @@ services:
     volumes:
       - nominatim-data:/var/lib/postgresql/12/main
     shm_size: 1gb
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.nominatim.rule=Host(`nominatim.internal`)
-      - traefik.http.services.nominatim.loadbalancer.server.port=9568
-    networks:
-      - treafik
 
 volumes:
   html:
