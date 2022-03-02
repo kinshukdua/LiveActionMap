@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  server:
+    image: nginx:1.21.6
+    restart: unless-stopped
+    volumes:
+      - html:/usr/share/nginx/html:ro
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.liveActionMap.rule=Host(`live-action-map.com`)
+      - traefik.http.routers.liveActionMap.tls=true
+      - traefik.http.routers.liveActionMap.tls.certresolver=resolver
+
+  scraper:
+    image: registry.gitlab.com/h2201/project-pipelines/live-action-map:latest
+    restart: unless-stopped
+    volumes:
+      - html:/app/dist
+    environment:
+      - BEARER
+      - BLACKLIST_USERID
+
+volumes:
+  html:
