@@ -31,8 +31,8 @@ services:
     ports:
       - "9568:8080"
     environment:
-      PBF_URL: https://download.geofabrik.de/europe/monaco-latest.osm.pbf
-      REPLICATION_URL: https://download.geofabrik.de/europe/monaco-updates/
+      PBF_URL: https://download.geofabrik.de/europe/ukraine-latest.osm.pbf
+      REPLICATION_URL: https://download.geofabrik.de/europe/ukraine-updates/
       NOMINATIM_PASSWORD: NOMINATIM_PASSWORD
     volumes:
       - nominatim-data:/var/lib/postgresql/12/main
