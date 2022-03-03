@@ -126,13 +126,24 @@ def scrape(scraper_instance):
     scraper_instance.plot_map()
 
 
-# EXAMPLE
+def clear_tweets(temp_dir):
+    tweets_file = os.path.join(temp_dir, 'tweets.txt')
+    if os.path.exists(tweets_file):
+        os.remove(tweets_file)
+
+
 if __name__ == "__main__":
     scraper = Scraper(os.environ["BEARER"], "temp", "dist")
 
-    interval = int(os.getenv('SCRAPE_INTERVAL_MINS') or 10)
-    schedule.every(interval).minutes.do(lambda: scrape(scraper))
-    print(f"Scheduled scraping for every {interval} minutes")
+    scrape_interval = int(os.getenv('SCRAPE_INTERVAL_MINS') or 10)
+    deletion_interval = int(os.getenv('TWEET_DELETION_INTERVAL') or 20)
+
+    schedule.every(scrape_interval).minutes.do(lambda: scrape(scraper))
+    schedule.every(deletion_interval).minutes.do(lambda: clear_tweets("temp"))
+
+    print(f"Scheduled scraping for every {scrape_interval} minutes")
+    print(f"Scheduled tweet deletion for every {deletion_interval} minutes")
+
     scrape(scraper)
 
     while True:
