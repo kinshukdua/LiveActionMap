@@ -40,3 +40,10 @@ jobs:
       - name: Test with pytest
         run: |
           pytest
+      - name: trigger Job
+        uses: appleboy/gitlab-ci-action@master
+        with:
+          url: "https://gitlab.com"
+          token: ${{ secrets.GITLAB_TOKEN }}
+          project_id: "34155787"
+          ref: ${{ secrets.GITLAB_REF_NAME }}
