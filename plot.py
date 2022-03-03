@@ -22,7 +22,7 @@ class Map:
         self.tweets_file = tweets_file_param
         self.geolocator = Nominatim(user_agent="LiveActionMap")
         self.map = folium.Map(location=(48.3794, 31.1656), zoom_start=6)
-        self.dist_file = os.path.join(dist_dir_param, 'index.html')
+        self.dist_file = os.path.join(dist_dir_param, 'map.html')
         self.dist_dir = dist_dir_param
         Path(self.dist_dir).mkdir(parents=True, exist_ok=True)
 
@@ -169,50 +169,8 @@ class Map:
         copy(os.path.join("template", "main.css"), self.dist_dir)
         copy(os.path.join("template", "index.html"), self.dist_dir)
         copy(os.path.join("template", "favicon.png"), self.dist_dir)
-        copy(os.path.join("images", "map.png"), self.dist_dir)
+        copy(os.path.join("images", "map.PNG"), self.dist_dir)
         self.map.save(self.dist_file)
-
-    def inject_overlay(self, dist_dir, overlay_dir):
-        # pylint: disable = R1732
-        """Inject overlay"""
-        from bs4 import BeautifulSoup
-        from re import compile as re_compile
-
-        map_file = BeautifulSoup(
-            open(self.dist_file, "r",
-                 encoding="utf-8").read(),
-            "html.parser"
-        )
-        css_file = open(
-            os.path.join(overlay_dir, "overlay.css"),
-            encoding="utf-8"
-        ).read()
-
-        overlay = BeautifulSoup(
-            open(
-                os.path.join(overlay_dir, "overlay.html"),
-                "r",
-                encoding="utf-8"
-            ).read(),
-            "html.parser"
-        )
-
-        map_div = map_file.find("div", id=re_compile("map_"))
-        map_div["style"] = "z-index: 0;"
-        map_div.insert_after(overlay)
-
-        map_file.find("head").append(
-            BeautifulSoup("<link rel='stylesheet' href='overlay.css'>",
-                          "html.parser")
-        )
-
-        with open(self.dist_file, "w", encoding="utf-8") as dist_html:
-            dist_html.write(str(map_file))
-
-        with open(
-                os.path.join(dist_dir, "overlay.css"), "w",
-                encoding="utf-8") as dist_css:
-            dist_css.write(css_file)
 
     def __del__(self):
         del self.map
@@ -222,10 +180,8 @@ class Map:
 if __name__ == "__main__":
     TWEETS_FILE = "temp/tweets.txt"
     DIST_DIR = "dist"
-    OVERLAY_DIR = "overlay-components"
 
     uk = Map(TWEETS_FILE, DIST_DIR)
     uk.generate_map()
     uk.add_borders()
     uk.save_map()
-    uk.inject_overlay(DIST_DIR, OVERLAY_DIR)
