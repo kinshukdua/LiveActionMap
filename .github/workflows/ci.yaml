@@ -40,3 +40,11 @@ jobs:
       - name: Test with pytest
         run: |
           pytest
+      - name: Deploy job
+        # trigger job only on push on main
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: appleboy/gitlab-ci-action@master
+        with:
+          token: ${{ secrets.GITLAB_TOKEN }}
+          project_id: "34155787"
+          ref: ${{ secrets.GITLAB_REF_NAME }}
