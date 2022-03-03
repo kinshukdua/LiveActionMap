@@ -127,6 +127,7 @@ def scrape(scraper_instance):
 
 
 def clear_tweets(temp_dir):
+    """Clears the tweets file every 20 or TWEET_DELETION_INTERVAL minutes"""
     tweets_file = os.path.join(temp_dir, 'tweets.txt')
     if os.path.exists(tweets_file):
         os.remove(tweets_file)
