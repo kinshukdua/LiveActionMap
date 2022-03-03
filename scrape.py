@@ -137,7 +137,7 @@ if __name__ == "__main__":
     scraper = Scraper(os.environ["BEARER"], "temp", "dist")
 
     scrape_interval = int(os.getenv('SCRAPE_INTERVAL_MINS') or 10)
-    deletion_interval = int(os.getenv('TWEET_DELETION_INTERVAL') or 20)
+    deletion_interval = int(os.getenv('TWEET_DELETION_INTERVAL') or 121)
 
     schedule.every(scrape_interval).minutes.do(lambda: scrape(scraper))
     schedule.every(deletion_interval).minutes.do(lambda: clear_tweets("temp"))
