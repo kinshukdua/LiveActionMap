@@ -40,8 +40,14 @@ jobs:
       - name: Test with pytest
         run: |
           pytest
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    steps:
       - name: Deploy job
         # trigger job only on push on main
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: curl --request POST "https://gitlab.com/api/v4/projects/34155787/trigger/pipeline?token=${{ secrets.GITLAB_TOKEN }}&ref=main"
         shell: bash
